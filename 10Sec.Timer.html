@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10sec. Countdown timer</title>
+    <link rel="stylesheet" href="timerstyle.css">
+</head>
+<body>
+    <h1>10초 카운트다운 타이머</h1>
+    <div id="display">카운트다운 시작!</div>
+    <button class="btn" id="start">시작</button>
+    <button class="btn" id="pauseResume">일시정지</button>
+    <button class="btn" id="reset">리셋</button>
+
+    <script>
+        let timeLeft = 10;
+        let timer = null;
+        let isPaused = false;
+        let idsplay = "카운트다운 시작!";
+
+        const displaynow = document.getElementById("display");
+        const startBtn = document.getElementById("start");
+        const prBtn = document.getElementById("pauseResume");
+        const resetBtn = document.getElementById("reset");
+
+        function startCountdown(){
+            if(timer) return;
+            displaynow.textContent = timeLeft;
+            timer = setInterval(()=>{
+                if(!isPaused){
+                timeLeft--;
+                displaynow.textContent = timeLeft;
+
+                if(timeLeft <= 0){
+                    clearInterval(timer);
+                    timer = null;
+                    displaynow.textContent = "타이머 종료!";
+                    prBtn.textContent = "일시정지";
+                    isPaused = false;
+                }
+            }
+        }, 1000);
+    }
+
+        function resetCountdown(){
+            clearInterval(timer);
+            timer = null;
+            timeLeft = 10;
+            isPaused = false;
+            displaynow.textContent = timeLeft;
+        }
+
+        function pauseResumeCountdown(){
+            if(timer){
+                isPaused = !isPaused;
+                prBtn.textContent = isPaused ? "재시작" : "일시정지";
+                displaynow.textContent = timeLeft;
+            }
+        }
+
+        startBtn.addEventListener("click", startCountdown);
+        resetBtn.addEventListener("click", resetCountdown);
+        prBtn.addEventListener("click", pauseResumeCountdown);
+    </script>
+</body>
+</html>
